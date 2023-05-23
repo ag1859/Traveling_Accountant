@@ -65,27 +65,6 @@ class MInterface:
                                     command=self.withtax)
         self.wkicmtxbtn.pack()
 
-        # --------------------------------------------Practice-Code-----------------------------------------------------
-
-        self.devbtn = tk.Button(self.window, text="report", font=('Arial', 18))
-        self.devbtn.pack()
-
-        self.label = tk.Label(self.window, text="Yo Msg", font=('Arial', 18))
-        self.label.pack(padx=10, pady=10)
-
-        self.txtbx = tk.Text(self.window, font=('Arial', 16))
-        self.txtbx.bind("<KeyPress>", self.klog)
-
-        self.ck_st = tk.IntVar()
-
-        self.ck = tk.Checkbutton(self.window, text="Show Msg Box", font=('Arial', 16), variable=self.ck_st)
-        self.ck.pack()
-
-        self.btn = tk.Button(self.window, text="Show Msg", font=('Arial', 18), command=self.show_msg())
-        self.btn.pack()
-
-        # --------------------------------------------------------------------------------------------------------------
-
         self.window.protocol("WM_DELETE_WINDOW", self.cl)
         self.window.mainloop()
 
@@ -141,20 +120,6 @@ class MInterface:
             self.setincomedstx()
         else:
             print("error")
-
-    def show_msg(self):
-        if self.ck_st.get() == 0:
-            print(self.txtbx.get('1.0', tk.END))
-        else:
-            messagebox.showinfo(title="Msg", message=self.txtbx.get('1.0', tk.messagebox))
-
-    def klog(self, event):
-        print(event.state)
-        print(event.keysym)
-        print(event)
-
-    def shtct(self, event):
-        print(event)
 
     def cl(self):
         if messagebox.askyesno(title="Exit", message="Are you sure you want to Exit?"):
