@@ -27,27 +27,52 @@ class MInterface:
         self.lbhrwk = tk.Label(self.window, text="Weekly Hours")
         self.hrwk = ttk.Entry(self.window, width=10)
 
+        self.sgrt = 0
+        self.sgrttx = 0
+        self.strsgrt = tk.StringVar()
+        self.strsgrt.set("$0.00\n")
+        self.avgut = 350
+
+        self.mthinm = 0
+        self.mthtx = 0
+        self.strmthincom = tk.StringVar()
+        self.strmthincom.set("$0.00\n")
+
         self.wkincm = 0
         self.wktx = 0
         self.strwkicm = tk.StringVar()
-        self.strwkicm.set("$0.00")
+        self.strwkicm.set("$0.00\n")
 
         self.sy = 0
         self.sytx = 0
         self.strsy = tk.StringVar()
-        self.strsy.set("$0.00")
+        self.strsy.set("$0.00\n")
 
-        # How "Salary"
+        # Show "Salary"
         self.syds = tk.Label(self.window, text="Salary", font=('Arial', 15))
         self.syds.pack()
         self.sydsvu = tk.Label(self.window, textvariable=self.strsy, font=('Arial', 18))
         self.sydsvu.pack()
+
+        # Show "Monthy Income"
+        self.lbdswkincm = tk.Label(self.window, text="Monthly Income", font=('Arial', 15))
+        self.lbdswkincm.pack()
+        self.dsmthincom = tk.Label(self.window, textvariable=self.strmthincom, font=('Arial', 18))
+        self.dsmthincom.pack()
 
         # Show "Weekly Income"
         self.lbdswkincm = tk.Label(self.window, text="Weekly Income", font=('Arial', 15))
         self.lbdswkincm.pack()
         self.dswkincom = tk.Label(self.window, textvariable=self.strwkicm, font=('Arial', 18))
         self.dswkincom.pack()
+
+        # Show "Rent Suggestion"
+        self.sugrent = tk.Label(self.window, text="Max Rent", font=('Arial', 15))
+        self.sugrentxp = tk.Label(self.window, text="(1/3 of Monthly Income, without Util.)", font=('Arial', 10))
+        self.sugrent.pack()
+        self.sugrentxp.pack()
+        self.sgrent = tk.Label(self.window, textvariable=self.strsgrt, font=('Arial', 18))
+        self.sgrent.pack()
 
         # Display "Hourly Pay" Label and Entry box
         self.lbhrincm.pack()
@@ -57,11 +82,11 @@ class MInterface:
         self.hrwk.pack()
 
         # Calculation buttons, w/ and w/out tax
-        self.wkicmbtn = tk.Button(self.window, text="Calculate Without Tax", font=('Arial', 15),
+        self.wkicmbtn = tk.Button(self.window, text="Gross Income", font=('Arial', 13),
                                   command=self.salary)
         self.wkicmbtn.pack()
 
-        self.wkicmtxbtn = tk.Button(self.window, text="Calculate With Tax", font=('Arial', 15),
+        self.wkicmtxbtn = tk.Button(self.window, text="Net Income", font=('Arial', 13),
                                     command=self.withtax)
         self.wkicmtxbtn.pack()
 
@@ -69,19 +94,25 @@ class MInterface:
         self.window.mainloop()
 
     def setincomeds(self):
-        self.wkincm = round(self.wkincm, 2)
-        self.strwkicm.set(f'$ {self.wkincm:0.2f}')
-        self.sy = round(self.sy, 2)
-        self.strsy.set(f'$ {self.sy:0.2f}')
+        self.strwkicm.set(f'$ {self.wkincm:0.2f}\n')
+        self.strsy.set(f'$ {self.sy:0.2f}\n')
+        self.strmthincom.set(f'$ {self.mthinm:0.2f}\n')
+        self.strsgrt.set(f'$ {self.sgrt:0.2f}\n')
 
     def setincomedstx(self):
         self.wktx = self.sytx / 52
-        self.strwkicm.set(f'$ {self.wktx:0.2f}')
-        self.strsy.set(f'$ {self.sytx:0.2f}')
+        self.mthtx = self.wktx * 4
+        self.sgrttx = self.mthtx / 3
+        self.strwkicm.set(f'$ {self.wktx:0.2f}\n')
+        self.strsy.set(f'$ {self.sytx:0.2f}\n')
+        self.strmthincom.set(f'$ {self.mthtx:0.2f}\n')
+        self.strsgrt.set(f'$ {self.sgrttx:0.2f}\n')
 
     def salary(self):
         self.sy = float(self.hrincm.get()) * int(self.hrwk.get()) * 52
         self.wkincm = self.sy / 52
+        self.mthinm = self.wkincm * 4
+        self.sgrt = self.mthinm / 3
         self.setincomeds()
         print(self.strwkicm.get())
         print(self.wkincm)
